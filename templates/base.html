@@ -1,0 +1,67 @@
+{%  load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <title>{% block title %}Local Library{% endblock %}</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% block content %}{% endblock %}
+
+          {% block pagination %}
+            {% if is_paginated %}
+                <div class="pagination">
+                  <span class="page-links">
+                    {% if page_obj.has_previous %}
+                      <a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+                    {% endif %}
+                    {% if page_obj.has_next %}
+                      <a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+                    {% endif %}
+                  </span>
+                </div>
+            {% endif %}
+          {% endblock %}
+        </div>
+        <div class="col-md-4">
+            {% block sidebar %}
+                <ul class="sidebar-nav">
+                  <li><a href="{% url 'catalog:index' %}">Home</a></li>
+                  <li><a href="{% url 'catalog:books' %}">Books</a></li>
+                  <li><a href="{% url 'catalog:authors' %}">All Authors</a></li>
+                  {% if user.is_authenticated %}
+                  <li><a href="{% url 'catalog:user_books' %}">Borrowed Books</a></li>
+                  <li>User: {{ user.username }}</li>
+                  <li><a href="{% url 'logout' %}?next={{ request.path }}">Log Out</a></li>
+                  {% else %}
+                      <li><a href="{% url 'login' %}?next={{ request.path }}">Log In</a></li>
+                  {% endif %}
+                  {% if perms.catalog.can_mark_returned %}
+                  <hr>
+                  <p>Staff</p>
+                  <li><a href="{% url 'catalog:loaned_books' %}">All Borrowed Books</a></li>
+                  {% endif %}
+                </ul>
+                {% if num_visits%}
+                  <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
+                  {% endif %}
+            {% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+  </body>
+</html>

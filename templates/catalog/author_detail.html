@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ author.first_name }} {{ author.last_name }}</h1>
+<p>{{ author.date_of_birth }} - {% if author.date_of_death %}{{ author.date_of_death }}{% endif %}</p>
+
+<h3>Books </h3>
+{% for book in author.books.all %}
+    <div class="book-listing">
+        <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
+        <p>{{ book.summary }}</p>
+    </div>
+{% endfor %}
+{% endblock %}
