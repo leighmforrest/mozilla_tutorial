@@ -38,4 +38,4 @@ class YourTestClass(TestCase):
 
     def test_get_absolute_url(self):
         author = Author.objects.get(id=1)
-        self.assertEquals(author.get_absolute_url(), '/author/1')
+        self.assertEquals(author.get_absolute_url(), '/catalog/author/1')

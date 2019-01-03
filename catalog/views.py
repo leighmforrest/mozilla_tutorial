@@ -69,7 +69,7 @@ class AuthorListView(generic.ListView):
     model = Author
     context_object_name = 'authors'
     template_name = 'catalog/author_list.html'
-    paginate_by = 2
+    paginate_by = 10
 
     def get_queryset(self):
         return Author.objects.all()
@@ -139,10 +139,10 @@ def renew_book_librarian(request, pk):
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author
-    template_name = 'catalog/author_form.html'
-    permission_required = 'catalog.can_mark_returned'
     fields = '__all__'
-    inital = {'date_of_death': '01/01/2019'}
+    initial = {'date_of_death': '12/10/2016'}
+    permission_required = 'catalog.can_mark_returned'
+    template_name = 'catalog/author_form.html'
 
 
 class AuthorUpdate(PermissionRequiredMixin, UpdateView):
