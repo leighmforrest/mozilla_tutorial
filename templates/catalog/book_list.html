@@ -7,10 +7,15 @@
     {% if books %}
         <ul>
             {% for book in books %}
-            <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a> by {{ book.author.first_name }} {{ book.author.last_name }}</li>
+            <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a> by {{ book.author.first_name }} {{ book.author.last_name }}
+            {% if perms.catalog.can_mark_returned %}
+            <a href="{% url 'catalog:book_update' book.id %}">Update</a>-
+            <a href="{% url 'catalog:book_delete' book.id %}">Delete</a>{% endif %}
+            </li>
             {% endfor %}
         </ul>
     {% else %}
     <p>There are no books in the library.</p>
     {% endif %}
+    {% if perms.catalog.can_mark_returned %}<a href="{% url 'catalog:book_create' %}">Add a book</a>{% endif %}
 {% endblock %}

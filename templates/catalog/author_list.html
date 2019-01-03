@@ -12,5 +12,9 @@
         </li>
     </ul>
 {% endfor %}
+{% else %}
+<p>There are no authors.</p>
 {% endif %}
+
+{% if perms.catalog.can_mark_returned %}<a href="{% url 'catalog:author_create' %}">Add an author</a>{% endif %}
 {% endblock %}
