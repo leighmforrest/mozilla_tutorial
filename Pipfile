@@ -8,6 +8,10 @@ verify_ssl = true
 [packages]
 django = "*"
 django-crispy-forms = "*"
+gunicorn = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.7"
